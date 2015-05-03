@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--Declare page as mobile friendly -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0" />
+    <!-- Declare page as iDevice WebApp friendly -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- iDevice WebApp Splash Screen, Regular Icon, iPhone, iPad, iPod Retina Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/splash/splash-icon.png">
+    <!-- iPhone 3, 3Gs -->
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen.png" media="screen and (max-device-width: 320px)" />
+    <!-- iPhone 4 -->
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen%402x.png" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" />
+    <!-- iPhone 5 -->
+    <link rel="apple-touch-startup-image" sizes="640x1096" href="images/splash/splash-screen%403x.png" />
+
+    <!-- Page Title -->
+    <title>CMPE 235 | Easy Grader</title>
+
+    <!-- Stylesheet Load -->
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+    <link href="styles/framework-style.css" rel="stylesheet" type="text/css">
+    <link href="styles/framework.css" rel="stylesheet" type="text/css">
+    <link href="styles/bxslider.css" rel="stylesheet" type="text/css">
+    <link href="styles/swipebox.css" rel="stylesheet" type="text/css">
+    <link href="styles/icons.css" rel="stylesheet" type="text/css">
+    <link href="styles/retina.css" rel="stylesheet" type="text/css" media="only screen and (-webkit-min-device-pixel-ratio: 2)" />
+
+
+    <!--Page Scripts Load -->
+    <script src="scripts/jquery.min.js" type="text/javascript"></script>
+    <script src="scripts/snap.js" type="text/javascript"></script>
+    <script src="scripts/hammer.js" type="text/javascript"></script>
+    <script src="scripts/jquery-ui-min.js" type="text/javascript"></script>
+    <script src="scripts/subscribe.js" type="text/javascript"></script>
+    <script src="scripts/contact.js" type="text/javascript"></script>
+    <script src="scripts/jquery.swipebox.js" type="text/javascript"></script>
+    <script src="scripts/bxslider.js" type="text/javascript"></script>
+    <script src="scripts/colorbox.js" type="text/javascript"></script>
+    <script src="scripts/retina.js" type="text/javascript"></script>
+    <script src="scripts/custom.js" type="text/javascript"></script>
+    <script src="scripts/framework.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+
+    <script>
+    $(document).on("pagebeforecreate", function() {
+
+        $.getJSON("http://devmaven.x10.bz/project/get_course.php", function(data) {
+            var items = [];
+
+            $.each(data, function(key, value) {
+                $("#course").append("<a href='#' onclick='setCourseDetail(this)' class='dropdown-item bg-light' id='course" + value.ID + "' value='" + value.ID + "'>" + value.CourseName + "</a> ");
+            });
+
+            $("#course").append("<div class='dropdown-bottom-border'></div>");
+
+            $(".dropdown-item").hide();
+        });
+
+    });
+
+    function setCourseDetail(event) {
+
+        $(event).parent().find('.dropdown-item').hide();
+        $(event).parent().find('.dropdown-hidden').hide();
+
+        $(event).parent().find('.dropdown-deploy').text(event.innerText);
+        $(event).parent().find('.dropdown-deploy').show();
+
+        var courseId = event.attributes.value.value;
+        $("#CourseId").val(courseId);
+        $("#ScalingFactorCourseId").val(courseId);
+
+    };
+
+    // $(document).on("pagecreate", function(event) {
+
+    //     $(".ui-btn").val("");
+
+    // });
+    </script>
+
+</head>
+
+<body>
+
+    <div id="preloader">
+        <div id="status">
+            <p class="center-text">
+                Loading the content...
+                <em>Loading depends on your connection speed!</em>
+            </p>
+        </div>
+    </div>
+
+
+
+    <div class="all-elements">
+
+        <div id="sidebar" class="page-sidebar">
+            <div class="page-sidebar-scroll">
+
+                <a href="index.html" class="nav-icon home-icon">HOME</a>
+                <a href="grade.html" class="nav-icon blog-icon">GRADE</a>
+                <a href="settings.html" class="nav-icon jquery-icon-selected">SETTING</a>
+                <a href="others.html" class="nav-icon other-icon">HELP</a>
+                <a href="mail.html" class="nav-icon contact-icon">CONTACT US</a>
+                <a href="tel:+1 408 834 6060" class="nav-icon call-icon">CALL FOR HELP</a>
+                <a href="sms:+1 408 834 6060" class="nav-icon text-icon">SMS FEEDBACK</a>
+
+
+            </div>
+        </div>
+
+        <div id="content" class="page-content">
+            <div class="page-header">
+                <em class="deploy-sidebar"></em>
+                <img class="logo" src="images/misc/logo.png" alt="img" width="85">
+            </div>
+
+            <div class="decoration"></div>
+            <div class="container no-bottom">
+                <h1 class="center-text">Settings</h1>
+                <p class="center-text">Configure all setting respective to course!</p>
+            </div>
+
+            <div class="decoration"></div>
+
+            <!--Dropdown-->
+
+            <div class="container no-bottom">
+                <h4 class="heading-icon">Course</h4>
+                <p> Please select the course number</p>
+
+                <div class="dropdown-menu" id="course">
+
+                    <a href="#" class="dropdown-deploy"><em class="left-dropdown bg-light"></em>Select Course Number</a>
+                    <a href="#" class="dropdown-hidden"><em class="left-dropdown bg-light"></em>Hide Course Number</a>
+
+                </div>
+
+            </div>
+
+            <div class="decoration"></div>
+
+            <div class="container no-bottom">
+                <div class="toggle-container-v4">
+                    <div class="toggle-v4">
+                        <a href="#" class="show-toggle-v4" style="display: none;">Course Total Marks Settings!</a>
+                        <a href="#" class="hide-toggle-v4" style="display: block;">Course Total Marks Hidden!</a>
+                        <div class="clear"></div>
+                        <div class="toggle-content-v4" style="display: none;">
+                            <div class="toggle-decoration-v4"></div>
+
+                            <form action="http://devmaven.x10.bz/project/save_marks_setting.php" method="post" class="contactForm" id="totalMarksForm">
+                                <fieldset>
+                                    <div class="formValidationError" id="sHomeworkFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>HOMEWORK IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="sLabsFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>LAB IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="sProjectFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>PROJECT IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="sPresentationFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>PRESENTATION IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="sMidtermFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>MIDTERM IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="sFinalFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>FINAL IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+
+                                    <input name="courseId" type="number" style="display: none;" id="CourseId">
+
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="sHomeworkField">Homework:<span>(required)</span>
+                                        </label>
+                                        <input name="MHomework" value="" type="number" class="gradeField requiredField" id="sHomeworkField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="sLabsField">Lab:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="MLabs" value="" class="gradeField requiredField" id="sLabsField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="sProjectField">Project:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="MProject" value="" class="gradeField requiredField" id="sProjectField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="sPresentationField">Presentation:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="MPresentation" value="" class="gradeField requiredField" id="sPresentationField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="sMidtermField">Midterm:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="MMidterm" value="" class="gradeField requiredField" id="sMidtermField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="sFinalField">Final:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="MFinal" value="" class="gradeField requiredField" id="sFinalField">
+                                    </div>
+
+
+                                    <div class="formSubmitButtonErrorsWrap">
+                                        <input type="submit" class="buttonWrap button-minimal grey-minimal contactSubmitButton" id="totalMarksButton" value="SAVE TOTAL MARKS" data-formid="totalMarksForm">
+                                    </div>
+                                </fieldset>
+                            </form>
+                            <div class="clear"></div>
+                            <label id="totalMarksSaveStatus" style="font: italic bold  12px Georgia, serif;"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="decoration"></div>
+
+            <div class="container no-bottom">
+                <div class="toggle-container-v4">
+                    <div class="toggle-v4">
+                        <a href="#" class="show-toggle-v4" style="display: none;">Scaling Factor Settings!</a>
+                        <a href="#" class="hide-toggle-v4" style="display: block;">Scaling Factor Hidden!</a>
+                        <div class="clear"></div>
+                        <div class="toggle-content-v4" style="display: none;">
+                            <div class="toggle-decoration-v4"></div>
+
+                            <form action="http://devmaven.x10.bz/project/save_percentage_setting.php" method="post" class="contactForm" id="SfForm">
+                                <fieldset>
+                                    <div class="formValidationError" id="tmHomeworkFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>HOMEWORK IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="tmLabsFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>LAB IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="tmProjectFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>PROJECT IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="tmPresentationFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>PRESENTATION IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="tmMidtermFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>MIDTERM IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="tmFinalFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>FINAL IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+
+                                    <input name="courseId" type="number" style="display: none;" id="ScalingFactorCourseId">
+
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="tmHomeworkField">Homework:<span>(required)</span>
+                                        </label>
+                                        <input name="PHomework" value="" type="number" class="gradeField requiredField" id="tmHomeworkField">
+                                    </div>
+
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="tmLabsField">Lab:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="PLabs" value="" class="gradeField requiredField" id="tmLabsField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="tmProjectField">Project:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="PProject" value="" class="gradeField requiredField" id="tmProjectField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="tmPresentationField">Presentation:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="PPresentation" value="" class="gradeField requiredField" id="tmPresentationField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="tmMidtermField">Midterm:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="PMidterm" value="" class="gradeField requiredField" id="tmMidtermField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="tmFinalField">Final:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="PFinal" value="" class="gradeField requiredField" id="tmFinalField">
+                                    </div>
+
+
+                                    <div class="formSubmitButtonErrorsWrap">
+                                        <input type="submit" class="buttonWrap button-minimal grey-minimal contactSubmitButton" id="sfSave" value="SAVE SCALING FACTOR" data-formid="SfForm">
+                                    </div>
+                                </fieldset>
+                            </form>
+                            <div class="clear"></div>
+                            <label id="SfSaveStatus" style="font: italic bold  12px Georgia, serif;"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="decoration"></div>
+
+
+            <div class="container no-bottom">
+                <div class="toggle-container-v4">
+                    <div class="toggle-v4">
+                        <a href="#" class="show-toggle-v4" style="display: none;">Grade Configuration Settings!</a>
+                        <a href="#" class="hide-toggle-v4" style="display: block;">Grade Configuration Hidden!</a>
+                        <div class="clear"></div>
+                        <div class="toggle-content-v4" style="display: none;">
+                            <div class="toggle-decoration-v4"></div>
+
+                            <form action="http://devmaven.x10.bz/project/save_percentage_setting.php" method="post" class="contactForm" id="gcForm">
+                                <fieldset>
+                                    <div class="formValidationError" id="HomeworkFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>HOMEWORK IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="LabsFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>LAB IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="ProjectFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>PROJECT IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="PresentationFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>PRESENTATION IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="MidtermFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>MIDTERM IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="formValidationError" id="FinalFieldError" style="display: none;">
+                                        <div class="small-notification red-notification no-bottom">
+                                            <p>FINAL IS REQUIRED</p>
+                                        </div>
+                                    </div>
+
+
+                                    <input name="courseId" type="number" style="display: none;" id="ScalingFactorCourseId">
+
+
+                                    <div class="formFieldWrap">
+                                        <!-- <label class="field-title gradeTextField" for="HomeworkField">Homework:<span>(required)</span>
+                                        </label>
+                                        <input name="PHomework" value="" type="number" class="gradeField requiredField" id="HomeworkField"> -->
+
+                                        <label for="slider-0">Input slider:</label>
+                                        <input type="range" name="slider" id="slider-0" value="60" min="0" max="100" />
+
+                                    </div>
+
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="LabsField">Lab:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="PLabs" value="" class="gradeField requiredField" id="LabsField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="ProjectField">Project:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="PProject" value="" class="gradeField requiredField" id="ProjectField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="PresentationField">Presentation:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="PPresentation" value="" class="gradeField requiredField" id="PresentationField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="MidtermField">Midterm:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="PMidterm" value="" class="gradeField requiredField" id="MidtermField">
+                                    </div>
+
+                                    <div class="formFieldWrap">
+                                        <label class="field-title gradeTextField" for="FinalField">Final:<span>(required)</span>
+                                        </label>
+                                        <input type="number" name="PFinal" value="" class="gradeField requiredField" id="FinalField">
+                                    </div>
+
+
+                                    <div class="formSubmitButtonErrorsWrap">
+                                        <input type="submit" class="buttonWrap button-minimal grey-minimal contactSubmitButton" id="gcSave" value="SAVE SCALING FACTOR" data-formid="gcForm">
+                                    </div>
+                                </fieldset>
+                            </form>
+                            <div class="clear"></div>
+                            <label id="gcSaveStatus" style="font: italic bold  12px Georgia, serif;"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="decoration"></div>
+
+            <div class="container">
+                <div class="footer-socials">
+                    <a href="#" class="footer-facebook"></a>
+                    <a href="#" class="footer-up"></a>
+                    <a href="#" class="footer-twitter"></a>
+                </div>
+                <p class="center-text">Copyright 2013. All rights reserved.</p>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>
